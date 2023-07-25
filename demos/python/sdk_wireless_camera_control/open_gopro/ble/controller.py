@@ -6,6 +6,7 @@
 import logging
 from abc import ABC, abstractmethod
 from typing import Callable, Generic, Pattern, TypeVar, Optional
+from typing import List
 
 from .services import GattDB, BleUUID, UUIDs
 
@@ -52,7 +53,7 @@ class BLEController(ABC, Generic[BleDevice, BleHandle]):
 
     @abstractmethod
     def scan(
-        self, token: Pattern, timeout: int = 5, service_uuids: Optional[list[BleUUID]] = None
+        self, token: Pattern, timeout: int = 5, service_uuids: Optional[List[BleUUID]] = None
     ) -> BleDevice:
         """Scan BLE device with a regex in it's device name.
 
