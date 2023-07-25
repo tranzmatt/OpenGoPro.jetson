@@ -6,7 +6,7 @@
 from __future__ import annotations
 from enum import IntEnum, Enum, IntFlag, EnumMeta
 from dataclasses import dataclass
-from typing import Protocol, Union, Iterator, TypeVar, Any, no_type_check, Final
+from typing import Protocol, Union, Iterator, TypeVar, Any, no_type_check, Final, Tuple
 
 import construct
 
@@ -513,7 +513,7 @@ class StatusId(GoProEnum):
     TOTAL_SD_SPACE_KB = 117
 
 
-ProducerType = tuple[QueryCmdId, Union[SettingId, StatusId]]
+ProducerType = Tuple[QueryCmdId, Union[SettingId, StatusId]]
 """Types that can be registered for."""
 
 CmdType = Union[CmdId, QueryCmdId, ActionId]

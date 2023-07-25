@@ -11,7 +11,7 @@ import uuid
 from pathlib import Path
 from enum import IntFlag, IntEnum
 from dataclasses import dataclass, asdict, InitVar
-from typing import Iterator, Generator, Mapping, Optional, no_type_check, Union, Final, Any
+from typing import Iterator, Generator, Mapping, Optional, no_type_check, Union, Final, Any, List, Tuple
 
 logger = logging.getLogger(__name__)
 
@@ -386,11 +386,11 @@ class GattDB:
         @no_type_check
         def items(
             self,
-        ) -> Generator[tuple[BleUUID, Characteristic], None, None]:  # noqa: D102
+        ) -> Generator[Tuple[BleUUID, Characteristic], None, None]:  # noqa: D102
             """Generate dict-like items view
 
             Returns:
-                Generator[tuple[BleUUID, Characteristic], None, None]: items generator
+                Generator[Tuple[BleUUID, Characteristic], None, None]: items generator
             """
 
             def iter_items():

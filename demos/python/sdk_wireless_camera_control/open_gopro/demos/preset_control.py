@@ -7,7 +7,7 @@ from __future__ import annotations
 import enum
 import logging
 import argparse
-from typing import Optional, Union, Callable
+from typing import Optional, Union, Callable, List, Tuple
 
 from rich.console import Console
 from rich.prompt import IntPrompt, Prompt
@@ -99,7 +99,7 @@ class Preset:
         self.title_id: Optional[enum.Enum] = None
         self.icon: Optional[enum.Enum] = None
         self.is_fixed: Optional[bool] = None
-        self.setting_array: Optional[list[Setting]] = None
+        self.setting_array: Optional[List[Setting]] = None
 
         if (parsedId := presetDict.get("id")) is not None:
             self.id = parsedId
@@ -125,7 +125,7 @@ class Preset:
         if (parsed_is_fixed := presetDict.get("is_fixed")) is not None:
             self.is_fixed = parsed_is_fixed
         if (settingDictArray := presetDict.get("setting_array")) is not None:
-            if isinstance(settingDictArray, list):
+            if isinstance(settingDictArray, List):
                 self.setting_array = []
                 for settingDict in settingDictArray:
                     self.setting_array.append(Setting(settingDict))
@@ -160,7 +160,7 @@ class Preset:
         if self.is_fixed is not None:
             presetTable.add_row("is_fixed:", str(self.is_fixed))
         if self.setting_array is not None:
-            settingTables: list[Table] = []
+            settingTables: List[Table] = []
             for setting in self.setting_array:
                 settingTables.append(setting.to_table())
             # Use horizontal grid layout for compactness
@@ -187,7 +187,7 @@ class PresetGroup:
             presetGroupDict (dict): dict representation of preset group
         """
         self.id: Union[GoProParams.PresetGroup, int]
-        self.presetArray: list[Preset] = []
+        self.presetArray: List[Preset] = []
         self.can_add_preset: Optional[bool] = None
 
         # Parse id
@@ -201,7 +201,7 @@ class PresetGroup:
             self.can_add_preset = parsed_can_add_preset
 
         # Parse preset_array
-        presetDictArray: Optional[list[dict]] = presetGroupDict.get("preset_array")
+        presetDictArray: Optional[List[dict]] = presetGroupDict.get("preset_array")
         if presetDictArray is not None:
             for preset in presetDictArray:
                 self.presetArray.append(Preset(preset))
@@ -260,11 +260,11 @@ class PresetCollection:
         Args:
             presetCollectionDict (dict): dict representation of preset collection
         """
-        self.presetGroupArray: list[PresetGroup] = []
+        self.presetGroupArray: List[PresetGroup] = []
 
         # Parse presetGroupArray
         presetGroupDictArray = presetCollectionDict.get("preset_group_array")
-        if isinstance(presetGroupDictArray, list):
+        if isinstance(presetGroupDictArray, List):
             for presetGroupDict in presetGroupDictArray:
                 self.presetGroupArray.append(PresetGroup(presetGroupDict))
         else:
@@ -288,14 +288,14 @@ class PresetCollection:
 
         return presetCollectionTable
 
-    def get_preset_tuple(self, presetId: int) -> tuple[Optional[PresetGroup], Optional[Preset]]:
+    def get_preset_tuple(self, presetId: int) -> Tuple[Optional[PresetGroup], Optional[Preset]]:
         """helper function for fetching the preset with specified preset id and its parent preset group
 
         Args:
             presetId (int): The preset id being searched for
 
         Returns:
-            tuple[Optional[PresetGroup], Optional[Preset]]: The matching preset and preset group if found
+            Tuple[Optional[PresetGroup], Optional[Preset]]: The matching preset and preset group if found
         """
         for presetGroup in self.presetGroupArray:
             if preset := presetGroup.get_preset_by_id(presetId):
@@ -494,15 +494,15 @@ def main(args: argparse.Namespace) -> None:
     logger = setup_logging(__name__, args.log)
 
     # Constants
-    topLevelSettings: list[SettingId]
-    hero10_topLevelSettings: list[SettingId] = [SettingId.MAX_LENS_MOD, SettingId.VIDEO_PERFORMANCE_MODE]
-    hero11_topLevelSettings: list[SettingId] = [
+    topLevelSettings: List[SettingId]
+    hero10_topLevelSettings: List[SettingId] = [SettingId.MAX_LENS_MOD, SettingId.VIDEO_PERFORMANCE_MODE]
+    hero11_topLevelSettings: List[SettingId] = [
         SettingId.MAX_LENS_MOD,
         SettingId.SYSTEM_VIDEO_MODE,
         SettingId.CAMERA_UX_MODE,
         SettingId.PHOTO_EASY_MODE,
     ]
-    hero11_mini_topLevelSettings: list[SettingId] = [SettingId.CAMERA_UX_MODE]
+    hero11_mini_topLevelSettings: List[SettingId] = [SettingId.CAMERA_UX_MODE]
 
     # State
     collectionCacheInvalidated = True
@@ -710,7 +710,7 @@ def main(args: argparse.Namespace) -> None:
                     menu.add_column()
                     menu.add_row("0", " ) ", "Back to Main Menu")
                     option_offset = 1
-                    if isinstance(presetCollectionCache.presetGroupArray, list):
+                    if isinstance(presetCollectionCache.presetGroupArray, List):
                         for i, group in enumerate(presetCollectionCache.presetGroupArray):
                             if group == activePresetGroup:
                                 menu.add_row(
@@ -748,7 +748,7 @@ def main(args: argparse.Namespace) -> None:
                     menu.add_column()
                     menu.add_row("0", " ) ", "Back to Preset Collection Menu")
                     option_offset = 1
-                    if isinstance(focusedPresetGroup.presetArray, list):
+                    if isinstance(focusedPresetGroup.presetArray, List):
                         for i, preset in enumerate(focusedPresetGroup.presetArray):
                             if preset.title_id is None:
                                 if preset == activePreset:
@@ -808,7 +808,7 @@ def main(args: argparse.Namespace) -> None:
                         menu.add_row("1", " ) ", "Load this preset")
                         option_offset += 1
                     else:
-                        if isinstance(focusedPreset.setting_array, list):
+                        if isinstance(focusedPreset.setting_array, List):
                             for i, setting in enumerate(focusedPreset.setting_array):
                                 if setting.id in gopro.ble_setting:
                                     menu.add_row(
@@ -847,7 +847,7 @@ def main(args: argparse.Namespace) -> None:
                             console.print(f"[purple]Loading preset {str(focusedPreset.title_id)}")
                         gopro.ble_command.load_preset(preset=focusedPreset.id)
                         activeCacheInvalidated = True
-                    elif isinstance(focusedPreset.setting_array, list):
+                    elif isinstance(focusedPreset.setting_array, List):
                         if focusedPreset.setting_array[option - option_offset].id not in gopro.ble_setting:
                             console.print("[red]Invalid selection")
                         else:
@@ -880,7 +880,7 @@ def main(args: argparse.Namespace) -> None:
 
                     settingValues = response.data.get(focusedSetting.id)
 
-                    if not isinstance(settingValues, list):
+                    if not isinstance(settingValues, List):
                         console.print(
                             f"Failed to retrieve capabilities, cannot edit setting {str(focusedSetting.id)}"
                         )

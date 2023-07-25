@@ -12,7 +12,7 @@ import traceback
 import threading
 from pathlib import Path
 from abc import ABC, abstractmethod
-from typing import Any, Final, Callable, TypeVar, Generic, Optional
+from typing import Any, Final, Callable, TypeVar, Generic, Optional, List, Tuple
 
 import wrapt
 import requests
@@ -70,7 +70,7 @@ def catch_thread_exception(
         return None
 
 
-def ensure_opened(interface: tuple[GoProMessageInterface]) -> Callable:
+def ensure_opened(interface: Tuple[GoProMessageInterface]) -> Callable:
     """Raise exception if relevant interface is not currently opened
 
     Args:
@@ -303,7 +303,7 @@ class GoProBase(ABC, Generic[ApiType]):
         raise NotImplementedError
 
     @staticmethod
-    def _ensure_opened(interface: tuple[GoProMessageInterface]) -> Callable:
+    def _ensure_opened(interface: Tuple[GoProMessageInterface]) -> Callable:
         """Raise exception if relevant interface is not currently opened
 
         Args:

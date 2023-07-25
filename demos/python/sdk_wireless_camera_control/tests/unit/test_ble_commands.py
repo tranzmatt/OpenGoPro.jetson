@@ -11,6 +11,8 @@ from open_gopro import proto, Params
 from open_gopro.responses import GoProResp
 from tests.conftest import BleCommunicatorTest
 
+from typing import List
+
 
 def test_write_command_correct_uuid_cmd_id(ble_communicator: GoProBle):
     response = ble_communicator.ble_command.set_shutter(shutter=Params.Toggle.ENABLE)
@@ -141,7 +143,7 @@ def test_commands_subscriptable(ble_communicator: BleCommunicatorTest):
         ],
     ):
         try:
-            assert commands[list(identifier)[0]]
+            assert commands[List(identifier)[0]]
         except TypeError:
             assert True
             continue

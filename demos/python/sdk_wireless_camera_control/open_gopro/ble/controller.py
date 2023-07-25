@@ -104,7 +104,7 @@ class BLEController(ABC, Generic[BleDevice, BleHandle]):
         raise NotImplementedError
 
     @abstractmethod
-    def discover_chars(self, handle: BleHandle, uuids: Optional[type[UUIDs]] = None) -> GattDB:
+    def discover_chars(self, handle: BleHandle, uuids: Optional[List[UUIDs]] = None) -> GattDB:
         """Discover all characteristics for a connected handle.
 
         By default, the BLE controller only knows Spec-Defined BleUUID's so any additional BleUUID's should

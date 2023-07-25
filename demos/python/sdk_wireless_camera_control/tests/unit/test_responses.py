@@ -15,6 +15,7 @@ from open_gopro.constants import ActionId, CmdId, GoProUUIDs, QueryCmdId, Settin
 from open_gopro.responses import GoProResp
 from open_gopro.api.http_commands import HttpParsers
 
+from typing import List
 
 test_push_receive_no_parameter = bytearray([0x08, 0xA2, 0x00, 0x02, 0x00, 0x03, 0x00, 0x79, 0x00])
 
@@ -473,7 +474,7 @@ def test_complex_write_command():
     r._parse()
     assert r.is_parsed
     assert r.is_received
-    assert "DEPRECATED" in list(r.values())
+    assert "DEPRECATED" in List(r.values())
     assert r.is_ok
     assert r.identifier is QueryCmdId.GET_STATUS_VAL
     assert r.cmd is QueryCmdId.GET_STATUS_VAL

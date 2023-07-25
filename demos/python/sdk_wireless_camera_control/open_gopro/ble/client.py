@@ -6,7 +6,7 @@
 import re
 import logging
 from pathlib import Path
-from typing import Generic, Optional, Union, Pattern
+from typing import Generic, Optional, Union, Pattern, List, Tuple
 
 from open_gopro.ble import BleUUID
 from open_gopro.exceptions import FailedToFindDevice, ConnectFailed
@@ -30,8 +30,8 @@ class BleClient(Generic[BleHandle, BleDevice]):
         controller: BLEController,
         disconnected_cb: DisconnectHandlerType,
         notification_cb: NotiHandlerType,
-        target: tuple[Union[Pattern, BleDevice], Optional[list[BleUUID]]],
-        uuids: Optional[type[UUIDs]] = None,
+        target: Tuple[Union[Pattern, BleDevice], Optional[List[BleUUID]]],
+        uuids: Optional[List[UUIDs]] = None,
     ) -> None:
         """Constructor
 
@@ -39,7 +39,7 @@ class BleClient(Generic[BleHandle, BleDevice]):
             controller (BLEController): controller implementation to use for this client
             disconnected_cb (DisconnectHandlerType): disconnected callback
             notification_cb (NotiHandlerType): notification callback
-            target (tuple[Union[Pattern, BleDevice], Optional[list[BleUUID]]]): Tuple
+            target (Tuple[Union[Pattern, BleDevice], Optional[list[BleUUID]]]): Tuple
                 of (device, service_uuids) where device is the BLE device (or regex) to connect to and
                 service_uuids is a list of service uuid's to filter for
             uuids (type[UUIDs], Optional): Additional UUIDs that will be used when discovering characteristic.

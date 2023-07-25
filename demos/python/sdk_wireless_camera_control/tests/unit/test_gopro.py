@@ -18,6 +18,8 @@ from open_gopro.gopro_wireless import WirelessGoPro, Params, GoProResp
 from open_gopro.exceptions import InvalidConfiguration, ResponseTimeout, GoProNotOpened
 from open_gopro.constants import StatusId, SettingId
 
+from typing import List
+
 ready = False
 
 
@@ -106,5 +108,5 @@ def test_keep_alive(gopro_client: WirelessGoPro):
 
 
 def test_get_param_values_by_id(gopro_client: WirelessGoPro):
-    vector = list(Params.Resolution)[0]
+    vector = List(Params.Resolution)[0]
     assert GoProResp._get_query_container(SettingId.RESOLUTION)(vector.value) == vector

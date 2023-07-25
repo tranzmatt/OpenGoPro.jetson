@@ -10,7 +10,7 @@ from pathlib import Path
 from urllib.parse import urlencode
 from collections.abc import Iterable
 from dataclasses import dataclass, InitVar, field
-from typing import Any, TypeVar, Generic, Union, Optional, Final, Callable
+from typing import Any, TypeVar, Generic, Union, Optional, Final, Callable, List, Tuple
 
 import wrapt
 import google.protobuf.json_format
@@ -48,7 +48,8 @@ logger = logging.getLogger(__name__)
 
 ValueType = TypeVar("ValueType")
 IdType = TypeVar("IdType")
-ProtobufProducerType = tuple[Union[type[SettingId], type[StatusId]], QueryCmdId]
+#ProtobufProducerType = Tuple[Union[type[SettingId], type[StatusId]], QueryCmdId]
+ProtobufProducerType = Tuple[Union[SettingId, StatusId], QueryCmdId]
 
 ProtobufPrinter = google.protobuf.json_format._Printer  # type: ignore # noqa
 original_field_to_json = ProtobufPrinter._FieldToJsonObject

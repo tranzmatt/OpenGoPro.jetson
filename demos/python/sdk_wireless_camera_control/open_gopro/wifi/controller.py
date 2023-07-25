@@ -6,7 +6,7 @@
 import logging
 from abc import ABC, abstractmethod
 from enum import IntEnum, auto
-from typing import Optional
+from typing import Optional, Tuple, List
 
 from open_gopro.exceptions import InterfaceConfigFailure
 
@@ -59,21 +59,21 @@ class WifiController(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def current(self) -> tuple[Optional[str], SsidState]:
+    def current(self) -> Tuple[Optional[str], SsidState]:
         """Return the SSID and state of the current network.
 
         Returns:
-            tuple[Optional[str], SsidState]: Tuple of SSID str and state. If SSID is None,
+            Tuple[Optional[str], SsidState]: Tuple of SSID str and state. If SSID is None,
             there is no current connection.
         """
         raise NotImplementedError
 
     @abstractmethod
-    def available_interfaces(self) -> list[str]:
-        """Return a list of available Wifi Interface strings
+    def available_interfaces(self) -> List[str]:
+        """Return a List of available Wifi Interface strings
 
         Returns:
-            list[str]: list of interfaces
+            List[str]: List of interfaces
         """
         raise NotImplementedError
 
