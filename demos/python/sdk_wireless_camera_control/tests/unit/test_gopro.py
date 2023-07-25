@@ -108,5 +108,5 @@ def test_keep_alive(gopro_client: WirelessGoPro):
 
 
 def test_get_param_values_by_id(gopro_client: WirelessGoPro):
-    vector = List(Params.Resolution)[0]
+    vector = List[Params.Resolution][0]
     assert GoProResp._get_query_container(SettingId.RESOLUTION)(vector.value) == vector

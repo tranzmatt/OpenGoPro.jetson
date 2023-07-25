@@ -143,7 +143,7 @@ def test_commands_subscriptable(ble_communicator: BleCommunicatorTest):
         ],
     ):
         try:
-            assert commands[List(identifier)[0]]
+            assert commands[List[identifier][0]]
         except TypeError:
             assert True
             continue

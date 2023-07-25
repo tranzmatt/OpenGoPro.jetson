@@ -11,7 +11,7 @@ import uuid
 from pathlib import Path
 from enum import IntFlag, IntEnum
 from dataclasses import dataclass, asdict, InitVar
-from typing import Iterator, Generator, Mapping, Optional, no_type_check, Union, Final, Any, List, Tuple
+from typing import Iterator, Generator, Mapping, Optional, no_type_check, Union, Final, Any, Tuple
 
 logger = logging.getLogger(__name__)
 

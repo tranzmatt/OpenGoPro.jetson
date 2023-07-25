@@ -112,8 +112,8 @@ def test_characteristic_view(gatt_db: GattDB):
     for char in gatt_db.characteristics:
         assert len(char.uuid.hex)
 
-    assert List(gatt_db.characteristics.keys()) == [c.uuid for c in chars]
-    assert List([c.uuid for c in gatt_db.characteristics.values()]) == [c.uuid for c in chars]
+    assert List[gatt_db.characteristics.keys()] == [c.uuid for c in chars]
+    assert List[[c.uuid for c in gatt_db.characteristics.values()]] == [c.uuid for c in chars]
 
 
 def test_gatt_db(gatt_db: GattDB):
